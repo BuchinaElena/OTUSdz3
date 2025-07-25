@@ -8,16 +8,18 @@ import java.util.Map;
 
 public abstract class AbsTable {
     protected String tableName;
+    protected MySqlConnecter connecter;
     protected Map<String, String> columns = new HashMap<>();
 
-    public AbsTable(String tableName) {
+    public AbsTable(String tableName, MySqlConnecter connecter) {
         this.tableName = tableName;
+        this.connecter = connecter;
     }
 
     public void create() {
         String sqlRequest = String.format("CREATE TABLE IF NOT EXISTS %s (%s)", this.tableName, convertMapColumnsToString());
         try {
-           MySqlConnecter.executeQuery(sqlRequest);
+           connecter.executeQuery(sqlRequest);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

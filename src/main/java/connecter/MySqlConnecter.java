@@ -19,7 +19,7 @@ public class MySqlConnecter implements IDBConnector{
 
      private void connect() throws SQLException {
         if (connection == null) {
-            Connection connection = DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     this.dbSettings.get("url"),
                     this.dbSettings.get("userName"),
                     this.dbSettings.get("password")
@@ -44,7 +44,7 @@ public class MySqlConnecter implements IDBConnector{
         statement.execute(sqlRequest);
     }
 
-    public static ResultSet executeQuery(String sqlRequest) throws SQLException {
+    public  ResultSet executeQuery(String sqlRequest) throws SQLException {
         return statement.executeQuery(sqlRequest);
     }
 }

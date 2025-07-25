@@ -20,7 +20,9 @@ public class Main {
 
     public static void main(String[] args) throws SQLException, IOException {
 
-        AnimalTable animalTable = new AnimalTable();
+        MySqlConnecter connecter = new MySqlConnecter();
+
+        AnimalTable animalTable = new AnimalTable(connecter);
 
         List<Animal> animals = new ArrayList<>();
 
@@ -44,7 +46,7 @@ public class Main {
 
             switch (userCommand) {
                 case ADD:{
-
+//TODO:переписать историю, эрейлист уже не нужен.
                     List<String> animalTypeNames = new ArrayList<>();
 
                     for(AnimalTypeData animalTypeData: AnimalTypeData.values()){
@@ -52,6 +54,7 @@ public class Main {
                     }
 
                     AnimalTypeData animalTypeData = null;
+                    String type = "";
                     while (true) {
                         System.out.printf("Введите тип животного: %s\n", String.join("/", animalTypeNames));
                         String userAnimalTypeData = scanner.next().trim().toLowerCase();
@@ -61,7 +64,7 @@ public class Main {
                             continue;
                         }
 
-                        animalTypeData = AnimalTypeData.valueOf(userAnimalTypeData.toUpperCase());
+                        type = userAnimalTypeData;
                         break;
                     }
 
@@ -93,16 +96,14 @@ public class Main {
                         break;
                     }
 
-                    Animal animal = new AnimalFactory(id, name, animalAge, animalWeight, colorData).create(animalTypeData);
-                    animals.add(animal);
+                    Animal animal = new AnimalFactory(id, animalTypeData, name, animalAge, animalWeight, colorData).create();
 
-                    animalTable.updateTable();
+                    animalTable.updateTable(animal);
                     break;
                 }
                 case LIST:{
+                    animals = animalTable.findAll();
                     for(Animal animal: animals) {
-
-                    animalTable.findAll();
 
                         System.out.println(animal.toString());
                     }

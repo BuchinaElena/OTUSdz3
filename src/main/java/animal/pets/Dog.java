@@ -1,11 +1,12 @@
 package animal.pets;
 import animal.Animal;
+import data.AnimalTypeData;
 import data.ColorData;
 
 public class Dog extends Animal {
 
-    public Dog(String id, String name, int age, int weight, ColorData colorData){
-        super(id, name,age,weight,colorData);
+    public Dog(String id,  String name, int age, int weight, ColorData colorData){
+        super(id, AnimalTypeData.valueOf("DOG"), name,age,weight,colorData);
     }
 
     @Override

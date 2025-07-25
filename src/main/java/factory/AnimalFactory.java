@@ -10,21 +10,23 @@ import data.ColorData;
 public class AnimalFactory {
 
     private String id = "";
+    private AnimalTypeData type = null;
     private String name = "";
     private int age = -1;
     private int weight = -1;
     private ColorData color = null;
 
-    public AnimalFactory(String id, String name, int age, int weight, ColorData colorData){
+    public AnimalFactory(String id, AnimalTypeData type,  String name, int age, int weight, ColorData colorData){
         this.id = id;
+        this.type = type;
         this.name = name;
         this.age = age;
         this.weight = weight;
         this.color = colorData;
     }
-
-    public Animal create(AnimalTypeData animalTypeData){
-        switch (animalTypeData){
+//TODO: дописать по аналогии с собакой.
+    public Animal create(){
+        switch (type){
             case CAT: {
                return new Cat(id, name, age, weight, color);
             }
@@ -34,8 +36,9 @@ public class AnimalFactory {
             case DUCK: {
                 return new Duck(id, name, age, weight, color);
             }
+
         }
 
-        throw new RuntimeException(String.format("Animal %s not supported", animalTypeData.name().toLowerCase()));
+        throw new RuntimeException(String.format("Animal %s not supported", type.name().toLowerCase()));
     }
 }

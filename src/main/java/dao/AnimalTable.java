@@ -2,6 +2,7 @@ package dao;
 
 import animal.Animal;
 import connecter.MySqlConnecter;
+import data.AnimalTypeData;
 import data.ColorData;
 import factory.AnimalFactory;
 
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalTable extends AbsTable implements IntTable{
-        public AnimalTable() throws SQLException, IOException {
-            super("animals");
+        public AnimalTable(MySqlConnecter connecter) throws SQLException, IOException {
+            super("animals", connecter);
             columns.put("id", "bigint PRIMARY KEY AUTO_INCREMENT");
             columns.put("type", "varchar(20)");
             columns.put("name", "varchar(20)");
@@ -29,20 +30,17 @@ public class AnimalTable extends AbsTable implements IntTable{
         public List<Animal> findAll() {
             List<Animal> animals = new ArrayList<>();
 
-                try (ResultSet rs = MySqlConnecter.executeQuery ("SELECT * FROM " + tableName)) {
+                try (ResultSet rs = connecter.executeQuery ("SELECT * FROM " + tableName)) {
                     while (rs.next()) {
                         String id = rs.getString("id");
                         String type = rs.getString("type");
                         String name = rs.getString("name");
                         int age = rs.getInt("age");
                         int weight = rs.getInt("weight");
-                        String color = rs.getColor("color");
+                        String color = rs.getString("color");
 
-                        Animal animal = new AnimalFactory(id, type, name, age, weight, color);
-                        //как передать сюда цвет?
-                        // конфликт колордата и стринг колор
-                        //тут можно было энимал-фактори использовать?
-                        animals.add(animal);
+                        AnimalFactory animalFactory = new AnimalFactory(id, AnimalTypeData.valueOf(type), name, age, weight, ColorData.getByName(color));
+                        animals.add(animalFactory.create());
                     }
                 } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -52,45 +50,37 @@ public class AnimalTable extends AbsTable implements IntTable{
 
         @Override
         public Animal findById(String searchId) {
-            Animal animal = new AnimalFactory();
+            String id = "";
+            String type = "";
+            String name = "";
+            AnimalFactory animal = null;
 
-                try (ResultSet rs = MySqlConnecter.executeQuery("SELECT * FROM " + tableName + " WHERE id=" + searchId)) {
-                    while (rs.next()) {
-                        String id = rs.getString("id");
-                        String type = rs.getString("type");
-                        String name = rs.getString("name");
-                        int age = rs.getInt("age");
-                        int weight = rs.getInt("weight");
-                        //String color = rs.getColor("color");
+            try (ResultSet rs = connecter.executeQuery("SELECT * FROM " + tableName + " WHERE id=" + searchId)) {
+                while (rs.next()) {
+                    id = rs.getString("id");
+                    type = rs.getString("type");
+                    name = rs.getString("name");
+                    int age = rs.getInt("age");
+                    int weight = rs.getInt("weight");
+                    String color = rs.getString("color");
 
-                        //animal = new AnimalFactory(id, type, name, age, weight, color);
-                    }
-                } catch (Exception e) {
+                    animal = new AnimalFactory(id, AnimalTypeData.valueOf(type), name, age, weight, ColorData.getByName(color));
+
+                }
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return animal;
+            return animal.create();
         }
 
-        public void updateTable(String id, String name, int age, int weight, ColorData colorData) {
-            List<Animal> animals = new ArrayList<>();
+        public void updateTable(Animal animal) {
 
-                try (ResultSet rs = MySqlConnecter.executeQuery("INSERT INTO " + tableName + "(id, type, name, age, weight, color) VALUES(" + id + type + name + age + weight + color + ")")) {
+                try (ResultSet rs = connecter.executeQuery("INSERT INTO " + tableName + "(id, type, name, age, weight, color) VALUES(" + animal.getId() + ", " + animal.getType() + ", " + animal.getName() + ", " + animal.getAge() + ", "+ animal.getWeight() + ", " + animal.getColor() + ", " + ")")) {
 
-                    while (rs.next()) {
-                        String id = rs.getString("id");
-                        String type = rs.getString("type");
-                        String name = rs.getString("name");
-                        int age = rs.getInt("age");
-                        int weight = rs.getInt("weight");
-                        //String color = rs.
-
-                        Animal animal = new AnimalFactory(id, type, name, age, weight, color);
-                        animals.add(animal);
-                    }
                 } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return animals;
+
         }
 
 }

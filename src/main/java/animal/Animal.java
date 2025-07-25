@@ -1,16 +1,19 @@
 package animal;
+import data.AnimalTypeData;
 import data.ColorData;
 
 public abstract class Animal {
 
     private String id = "";
+    private AnimalTypeData type = null;
     private String name = "";
     private int age = -1;
     private int weight = -1;
     private ColorData color = null;
 
-    public Animal(String id, String name, int age, int weight, ColorData colorData){
+    public Animal(String id, AnimalTypeData type, String name, int age, int weight, ColorData colorData){//TODO:в животных указать тип привентивно (через final?)
         this.id = id;
+        this.type = type;
         this.name = name;
         this.age = age;
         this.weight = weight;
@@ -19,6 +22,10 @@ public abstract class Animal {
 
     public String getId() {
         return id;
+    }
+
+    public AnimalTypeData getType() {
+        return type;
     }
 
     public String getName() {
@@ -73,6 +80,10 @@ public abstract class Animal {
         }
 
         return "лет";
+    }
+
+    public String getTableRow(){
+        return String.format("");//TODO:дописать вывод формата на консоль для List
     }
 
 }

@@ -8,6 +8,6 @@ public abstract class AbsSettings {
 
     public AbsSettings(String fileName) {
         String rootPath = System.getProperty("user.dir");
-        File propertiesFile = new File(rootPath + "src/resources/" + fileName);
+        propertiesFile = new File(rootPath + "/src/main/resources/" + fileName);
     }
 }
