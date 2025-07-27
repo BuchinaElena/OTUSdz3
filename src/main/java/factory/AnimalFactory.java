@@ -24,7 +24,7 @@ public class AnimalFactory {
         this.weight = weight;
         this.color = colorData;
     }
-//TODO: дописать по аналогии с собакой.
+
     public Animal create(){
         switch (type){
             case CAT: {

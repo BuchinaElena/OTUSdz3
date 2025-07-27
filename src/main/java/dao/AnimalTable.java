@@ -15,7 +15,7 @@ import java.util.List;
 public class AnimalTable extends AbsTable implements IntTable{
         public AnimalTable(MySqlConnecter connecter) throws SQLException, IOException {
             super("animals", connecter);
-            columns.put("id", "bigint PRIMARY KEY AUTO_INCREMENT");
+            columns.put("id", "varchar(64) PRIMARY KEY");
             columns.put("type", "varchar(20)");
             columns.put("name", "varchar(20)");
             columns.put("age", "int");
@@ -75,8 +75,12 @@ public class AnimalTable extends AbsTable implements IntTable{
 
         public void updateTable(Animal animal) {
 
-                try (ResultSet rs = connecter.executeQuery("INSERT INTO " + tableName + "(id, type, name, age, weight, color) VALUES(" + animal.getId() + ", " + animal.getType() + ", " + animal.getName() + ", " + animal.getAge() + ", "+ animal.getWeight() + ", " + animal.getColor() + ", " + ")")) {
-
+                try {
+                    String sql = "INSERT INTO " + tableName + " (id, `type`, name, age, weight, color) VALUES ('" + animal.getId() +
+                            "', '" + animal.getType() + "', '" + animal.getName() + "', " + animal.getAge() + ", "+ animal.getWeight() + ", '" +
+                            animal.getColor() +  "')";
+                    System.out.println(sql);
+                    connecter.execute(sql);
                 } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

@@ -21,7 +21,7 @@ public class MySqlConnecter implements IDBConnector{
         if (connection == null) {
             connection = DriverManager.getConnection(
                     this.dbSettings.get("url"),
-                    this.dbSettings.get("userName"),
+                    this.dbSettings.get("username"),
                     this.dbSettings.get("password")
             );
         }

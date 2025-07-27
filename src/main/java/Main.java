@@ -96,7 +96,7 @@ public class Main {
                         break;
                     }
 
-                    Animal animal = new AnimalFactory(id, animalTypeData, name, animalAge, animalWeight, colorData).create();
+                    Animal animal = new AnimalFactory(id, AnimalTypeData.valueOf(type.toUpperCase()), name, animalAge, animalWeight, colorData).create();
 
                     animalTable.updateTable(animal);
                     break;
@@ -105,7 +105,7 @@ public class Main {
                     animals = animalTable.findAll();
                     for(Animal animal: animals) {
 
-                        System.out.println(animal.toString());
+                        System.out.println(animal.getTableRow());
                     }
                     break;
                 }

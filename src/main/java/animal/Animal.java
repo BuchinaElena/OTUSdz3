@@ -11,7 +11,7 @@ public abstract class Animal {
     private int weight = -1;
     private ColorData color = null;
 
-    public Animal(String id, AnimalTypeData type, String name, int age, int weight, ColorData colorData){//TODO:в животных указать тип привентивно (через final?)
+    public Animal(String id, AnimalTypeData type, String name, int age, int weight, ColorData colorData){
         this.id = id;
         this.type = type;
         this.name = name;
@@ -83,7 +83,8 @@ public abstract class Animal {
     }
 
     public String getTableRow(){
-        return String.format("");//TODO:дописать вывод формата на консоль для List
+        return String.format("id %s, type %s, name %s, age %d, weight %d, color %s \n", id, type, name,age,weight,color.getName());
+                //TODO:дописать вывод формата на консоль для List
     }
 
 }

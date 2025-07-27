@@ -19,7 +19,7 @@ public abstract class AbsTable {
     public void create() {
         String sqlRequest = String.format("CREATE TABLE IF NOT EXISTS %s (%s)", this.tableName, convertMapColumnsToString());
         try {
-           connecter.executeQuery(sqlRequest);
+           connecter.execute(sqlRequest);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
