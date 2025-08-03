@@ -21,29 +21,23 @@ public enum ColorData {
     public static ColorData getByName(String name){
         switch (name) {
 
-            case ("белый"): {
+            case ("WHITE"): {
                 return ColorData.WHITE;
-
             }
-            case ("коричневый"): {
+            case ("BROWN"): {
                 return ColorData.BROWN;
-
             }
-            case ("оранжевый"): {
+            case ("ORANGE"): {
                 return ColorData.ORANGE;
-
             }
-            case ("золотой"): {
+            case ("GOLD"): {
                 return ColorData.GOLD;
-
             }
-            case ("черный"): {
+            case ("BLACK"): {
                 return ColorData.BLACK;
-
             }
-            case ("розовый"): {
+            case ("PINK"): {
                 return ColorData.PINK;
-
             }
 
         }

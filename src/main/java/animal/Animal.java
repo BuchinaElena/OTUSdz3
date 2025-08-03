@@ -84,7 +84,7 @@ public abstract class Animal {
 
     public String getTableRow(){
         return String.format("id %s, type %s, name %s, age %d, weight %d, color %s \n", id, type, name,age,weight,color.getName());
-                //TODO:дописать вывод формата на консоль для List
+
     }
 
 }

@@ -48,14 +48,15 @@ public class AnimalTable extends AbsTable implements IntTable{
             return animals;
         }
 
-        @Override
-        public Animal findById(String searchId) {
+    @Override
+        public List<Animal> findByType(String searchType) {
             String id = "";
             String type = "";
             String name = "";
             AnimalFactory animal = null;
+            List<Animal> animals = new ArrayList<>();
 
-            try (ResultSet rs = connecter.executeQuery("SELECT * FROM " + tableName + " WHERE id=" + searchId)) {
+            try (ResultSet rs = connecter.executeQuery("SELECT * FROM " + tableName + " WHERE type='" + searchType + "'")) {
                 while (rs.next()) {
                     id = rs.getString("id");
                     type = rs.getString("type");
@@ -65,15 +66,16 @@ public class AnimalTable extends AbsTable implements IntTable{
                     String color = rs.getString("color");
 
                     animal = new AnimalFactory(id, AnimalTypeData.valueOf(type), name, age, weight, ColorData.getByName(color));
-
+                    animals.add(animal.create());
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return animal.create();
+
+        return animals;
         }
 
-        public void updateTable(Animal animal) {
+        public void createAnimal(Animal animal) {
 
                 try {
                     String sql = "INSERT INTO " + tableName + " (id, `type`, name, age, weight, color) VALUES ('" + animal.getId() +
@@ -85,6 +87,18 @@ public class AnimalTable extends AbsTable implements IntTable{
                 System.out.println(e.getMessage());
             }
 
+        }
+
+        public void updateTable(Animal animal, String updateAnimalID){
+            try {
+                String sql = "UPDATE " + tableName + " SET `type` = '" + animal.getType() + "', name = '" +
+                        animal.getName() + "', age = " + animal.getAge() + ", weight = "+ animal.getWeight() +
+                        ", color = '" + animal.getColor() +  "' WHERE id = '" + updateAnimalID + "'";
+                System.out.println(sql);
+                connecter.execute(sql);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
 
 }

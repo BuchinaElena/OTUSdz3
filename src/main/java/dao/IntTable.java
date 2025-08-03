@@ -7,6 +7,6 @@ import java.util.List;
 public interface IntTable {
 
         List<Animal> findAll();
-        Animal findById(String searchId);
+        List<Animal> findByType(String searchType);
     }
 
